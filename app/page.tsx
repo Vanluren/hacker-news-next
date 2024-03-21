@@ -1,20 +1,30 @@
+import ListItem from "@/components/ListItem";
 import { Story } from "@/types/Item";
-import type { InferGetServerSidePropsType, GetServerSideProps } from "next";
+import { API_ROUTES } from "@/utils/routes";
 
-export default function Page({ stories }) {
+export default async function Page({}) {
+  const stories = await getTopStories();
   return (
-    <main>
-      {stories.map((story) => (
-        <div key={story.id}>{story.title}</div>
+    <div className="">
+      {stories.map((story, idx) => (
+        <ListItem item={story} key={story.id} index={idx + 1} />
       ))}
-    </main>
+    </div>
   );
 }
 
-export async function getServerSideProps() {
-  const res = await fetch("https://api.github.com/repos/vercel/next.js");
+async function getTopStories(): Promise<Story[]> {
+  const result = await fetch(API_ROUTES.TOP_STTORIES);
 
-  const stories: Story[] = await res.json();
+  const topStoryIds = await result.json();
 
-  return { props: { stories } };
+  const topStories = await Promise.all(
+    topStoryIds
+      .slice(0, 30)
+      .map(async (storyId: number) =>
+        fetch(API_ROUTES.ITEM(storyId)).then((res) => res.json()),
+      ),
+  );
+
+  return topStories;
 }
