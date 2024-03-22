@@ -2,13 +2,7 @@ import ListItem from "@/components/ListItem";
 import { Story } from "@/types/Item";
 import { API_ROUTES } from "@/utils/routes";
 import Pagination from "@/components/Pagination";
-
-const DATE_OPTIONS = {
-  weekday: "long",
-  year: "numeric",
-  month: "long",
-  day: "numeric",
-} as const;
+import { DATE_OPTIONS } from "@/utils/time";
 
 const TOTAL_STORIES = 30;
 

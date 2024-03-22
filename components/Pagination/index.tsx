@@ -8,6 +8,7 @@ type PaginationProps = {
 
 const Pagination = ({ currentPage }: PaginationProps) => {
   const router = useRouter();
+
   const onPageChange = (page: number) => {
     if (page < 1) return;
     return router.push(`?page=${page}`);

@@ -1,19 +1,21 @@
 import type { Item } from "@/types/Item";
+import { DATE_OPTIONS } from "@/utils/time";
 import Link from "next/link";
 
 type ItemInfoProps = {
   id: Item["id"];
   by: Item["by"];
+  time: Item["time"];
   url?: Item["url"];
   score?: Item["score"];
   descendants?: Item["descendants"];
 };
 
-const ItemInfo = ({ id, url, score, descendants, by }: ItemInfoProps) => {
+const ItemInfo = ({ id, url, score, descendants, by, time }: ItemInfoProps) => {
   const prettyStoryHostname = (url && new URL(url).hostname) ?? null;
 
   return (
-    <article className="text-sm text-gray-400 w-full flex gap-2 pt-2">
+    <section className="text-sm text-gray-400 w-full flex gap-2 pt-2">
       {prettyStoryHostname && (
         <>
           <a href={url} className="text-[#ff6600]">
@@ -39,7 +41,13 @@ const ItemInfo = ({ id, url, score, descendants, by }: ItemInfoProps) => {
           </Link>
         </>
       )}
-    </article>
+      {time && (
+        <>
+          <span>•</span>
+          <span>{new Date(time).toLocaleString(undefined, DATE_OPTIONS)}</span>
+        </>
+      )}
+    </section>
   );
 };
 

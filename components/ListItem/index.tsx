@@ -22,6 +22,7 @@ const ListItem = ({ item, index }: ItemProps) => {
         id={item.id}
         url={item.url}
         by={item.by}
+        time={item.time}
         score={item.score}
         descendants={item.descendants}
       />
