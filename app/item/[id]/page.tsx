@@ -2,6 +2,7 @@ import type { Item as ItemType } from "@/types/Item";
 import Link from "next/link";
 import { API_ROUTES } from "@/utils/routes";
 import ItemInfo from "@/components/ItemInfo";
+import { Suspense } from "react";
 
 export default async function Page({
   params: { id },
@@ -9,11 +10,17 @@ export default async function Page({
   params: { id: string };
 }) {
   const item = await getItem(id);
-  console.log(item);
+
+  const comments = await Promise.all(
+    item.kids?.map((kid) => getItem(kid.toString())) ?? [],
+  );
+
   return (
-    <div>
-      <section className="border-b-gray-200 border-b-2 pb-8">
-        <h1 className="font-semibold text-3xl">{item.title}</h1>
+    <article className="mx-auto w-4/5">
+      <section className="border-b-[#e8e8e1] border-b-2 pb-8">
+        <Link href={item.url ?? ""}>
+          <h1 className="font-semibold text-3xl">{item.title}</h1>
+        </Link>
         {item.text && (
           <div
             className="text-md text-gray-600  py-6"
@@ -22,7 +29,7 @@ export default async function Page({
         )}
         <ItemInfo id={item.id} url={item.url} by={item.by} score={item.score} />
       </section>
-    </div>
+    </article>
   );
 }
 
