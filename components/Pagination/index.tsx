@@ -15,7 +15,10 @@ const Pagination = ({ currentPage }: PaginationProps) => {
   };
 
   return (
-    <section className="w-full flex flex-row items-center justify-center py-4">
+    <section
+      className="w-full flex flex-row items-center justify-center py-4"
+      data-testid="pagination"
+    >
       <button
         onClick={() => onPageChange(currentPage + 1)}
         className="rounded-md bg-[#e8e8e1] px-4 py-2 text-sm text-gray-600"

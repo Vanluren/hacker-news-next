@@ -38,21 +38,37 @@ export default async function TopStoriesPage({
   );
 }
 
-async function getSortedTopStories(currentPage: number): Promise<Story[]> {
+export async function fetchTopStories() {
   const result = await fetch(API_ROUTES.TOP_STTORIES);
+  return await result.json();
+}
 
-  const topStoryIds = await result.json();
+export async function fetchStoryById(storyId: number) {
+  const result = await fetch(API_ROUTES.ITEM(storyId));
+  return await result.json();
+}
 
-  const shownStoriesStart = (currentPage - 1) * TOTAL_STORIES;
-  const shownStoriesend = currentPage * TOTAL_STORIES;
+export function sortStoriesByScore(stories: Story[]) {
+  return stories.sort((a, b) => b.score - a.score);
+}
 
-  const topStories = await Promise.all(
-    topStoryIds
-      .slice(shownStoriesStart, shownStoriesend)
-      .map(async (storyId: number) =>
-        fetch(API_ROUTES.ITEM(storyId)).then((res) => res.json()),
-      ),
-  );
+export async function getSortedTopStories(
+  currentPage: number,
+): Promise<Story[]> {
+  try {
+    const topStoryIds = await fetchTopStories();
 
-  return topStories.sort((a, b) => b.score - a.score);
+    const shownStoriesStart = (currentPage - 1) * TOTAL_STORIES;
+    const shownStoriesend = currentPage * TOTAL_STORIES;
+
+    const topStories = await Promise.all(
+      topStoryIds.slice(shownStoriesStart, shownStoriesend).map(fetchStoryById),
+    );
+
+    const sortedStories = sortStoriesByScore(topStories);
+
+    return sortedStories;
+  } catch (error) {
+    return [];
+  }
 }
