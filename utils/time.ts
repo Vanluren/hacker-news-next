@@ -15,7 +15,7 @@ export const timeAgo = (date: number) => {
   switch (true) {
     case diff < minute:
       const seconds = Math.round(diff / 1000);
-      return `${seconds} ${seconds > 1 ? "seconds" : "second"} ago`;
+      return `Just now`;
     case diff < hour:
       return Math.round(diff / minute) + " minutes ago";
     case diff < day:
