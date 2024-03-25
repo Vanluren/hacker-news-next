@@ -1,6 +1,6 @@
 import ListItem from "@/components/ListItem";
 import { Story } from "@/types/Item";
-import { API_ROUTES } from "@/utils/routes";
+import { fetchItemById, fetchTopStories } from "@/utils/api";
 import Pagination from "@/components/Pagination";
 import { DATE_OPTIONS } from "@/utils/time";
 
@@ -13,10 +13,6 @@ export default async function TopStoriesPage({
 }) {
   const currentPage = Number(searchParams?.page) || 1;
   const stories = await getSortedTopStories(currentPage);
-  const calculateStoryIndex = (elementIndex: number) => {
-    const firstElementIndex = (currentPage - 1) * TOTAL_STORIES;
-    return firstElementIndex + elementIndex + 1;
-  };
 
   return (
     <article>
@@ -30,7 +26,7 @@ export default async function TopStoriesPage({
         <ListItem
           item={story}
           key={story.id}
-          index={calculateStoryIndex(idx)}
+          index={calculateStoryIndex(idx, currentPage)}
         />
       ))}
       <Pagination currentPage={currentPage} />
@@ -38,17 +34,12 @@ export default async function TopStoriesPage({
   );
 }
 
-export async function fetchTopStories() {
-  const result = await fetch(API_ROUTES.TOP_STTORIES);
-  return await result.json();
+function calculateStoryIndex(elementIndex: number, currentPage: number) {
+  const firstElementIndex = (currentPage - 1) * TOTAL_STORIES;
+  return firstElementIndex + elementIndex + 1;
 }
 
-export async function fetchStoryById(storyId: number) {
-  const result = await fetch(API_ROUTES.ITEM(storyId));
-  return await result.json();
-}
-
-export function sortStoriesByScore(stories: Story[]) {
+function sortStoriesByScore(stories: Story[]) {
   return stories.sort((a, b) => b.score - a.score);
 }
 
@@ -62,7 +53,7 @@ export async function getSortedTopStories(
     const shownStoriesend = currentPage * TOTAL_STORIES;
 
     const topStories = await Promise.all(
-      topStoryIds.slice(shownStoriesStart, shownStoriesend).map(fetchStoryById),
+      topStoryIds.slice(shownStoriesStart, shownStoriesend).map(fetchItemById),
     );
 
     const sortedStories = sortStoriesByScore(topStories);

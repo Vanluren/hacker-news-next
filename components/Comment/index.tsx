@@ -1,7 +1,13 @@
 import { Comment, Item } from "@/types/Item";
 import { timeAgo } from "@/utils/time";
 
-const Comments = ({ by, time, text }: Item) => (
+type CommentProps = {
+  by: Comment["by"];
+  time: Comment["time"];
+  text: Comment["text"];
+};
+
+const Comments = ({ by, time, text }: CommentProps) => (
   <li className="flex flex-col space-y-4 mt-4 border-b-[#e8e8e1] border-b-[1.5px] w-full">
     <div className="flex flex-col divide-y divide-gray-100 dark:divide-black-400 space-y-">
       <div className="flex flex-row gap-2 text-gray-400">

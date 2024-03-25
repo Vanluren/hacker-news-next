@@ -1,6 +1,6 @@
 import Comment from "@/components/Comment";
 import { Item } from "@/types/Item";
-import { API_ROUTES } from "@/utils/routes";
+import { fetchItemById } from "@/utils/api";
 
 const CommentList = async ({ commentIds }: { commentIds: Item["kids"] }) => {
   const comments = await getComments(commentIds);
@@ -27,18 +27,12 @@ const CommentList = async ({ commentIds }: { commentIds: Item["kids"] }) => {
   );
 };
 
-export const getComments = async (ids: number[]): Promise<Comment[]> => {
+export const getComments = async (ids: number[]): Promise<Item[]> => {
   try {
     const comments = await Promise.all(
-      ids.map(async (id) => {
-        const response = await fetch(API_ROUTES.ITEM(id));
-        return (await response.json()) as Comment | null;
-      }),
+      ids.map(async (id) => fetchItemById(id)),
     );
-
-    comments.filter((comment) => comment !== null);
-
-    return comments as Item[];
+    return comments.filter((comment) => comment !== null) as Item[];
   } catch (error) {
     return [];
   }

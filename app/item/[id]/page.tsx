@@ -4,13 +4,14 @@ import { API_ROUTES } from "@/utils/routes";
 import ItemInfo from "@/components/ItemInfo";
 import { Suspense } from "react";
 import CommentList from "@/components/CommentList";
+import { fetchItemById } from "@/utils/api";
 
-export default async function Page({
+export default async function SingleItemPage({
   params: { id },
 }: {
   params: { id: string };
 }) {
-  const item = await getItem(id);
+  const item = await fetchItemById(Number(id));
 
   return (
     <article className="mx-auto w-4/5">
@@ -36,9 +37,3 @@ export default async function Page({
     </article>
   );
 }
-
-const getItem = async (id: string): Promise<ItemType> => {
-  const response = await fetch(API_ROUTES.ITEM(id));
-  console.log(API_ROUTES.ITEM(id));
-  return await response.json();
-};
