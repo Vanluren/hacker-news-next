@@ -20,7 +20,7 @@ export default async function TopStoriesPage({
 
   return (
     <article>
-      <section className="w-full flex items-center justify-between pb-12 border-b-[1px] border-b-[#e8e8e1] mb-8">
+      <section className="w-full flex items-center md:justify-between pb-8 lg:pb-12 border-b-[1px] border-b-[#e8e8e1] mb-8">
         <h1 className="text-4xl font-semibold">Top Stories</h1>
         <span className="text-gray-400">
           {new Date().toLocaleString(undefined, DATE_OPTIONS)}

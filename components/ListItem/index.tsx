@@ -12,7 +12,7 @@ const ListItem = ({ item, index }: ItemProps) => {
   return (
     <article
       id={item.id.toString()}
-      className="flex flex-col gap-x-2 relative pr-20 pb-6 pl-12 "
+      className="w-full flex flex-col gap-x-2 relative pr-8 lg:pr-20 pb-6 pl-6 lg:pl-12 "
     >
       <div className="text-lg absolute left-0 w-8 text-gray-500">{index}.</div>
       <Link href={itemLink} target="_blank" className="text-xl relative">

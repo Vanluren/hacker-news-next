@@ -15,7 +15,7 @@ const ItemInfo = ({ id, url, score, descendants, by, time }: ItemInfoProps) => {
   const prettyStoryHostname = (url && new URL(url).hostname) ?? null;
 
   return (
-    <section className="text-sm text-gray-400 w-full gap-2 pt-2 flex flex-col">
+    <section className="text-sm text-gray-400 w-full gap-2 pt-2 flex lg:flex-col flex-wrap">
       <div className="flex gap-2">
         {prettyStoryHostname && (
           <>
@@ -39,16 +39,16 @@ const ItemInfo = ({ id, url, score, descendants, by, time }: ItemInfoProps) => {
           </>
         )}
         {time && (
-          <>
+          <div className="hidden lg:flex">
             <span>•</span>
             <span>
               {new Date(time * 1000).toLocaleString(undefined, DATE_OPTIONS)}
             </span>
-          </>
+          </div>
         )}
       </div>
 
-      <div className="flex flex-row gap-2">
+      <div className="hidden flex-row gap-2 lg:flex">
         <Link href={`/user/${by}`} className="hover:text-[#ff6600]">
           {by}
         </Link>
