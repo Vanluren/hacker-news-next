@@ -1,8 +1,5 @@
-import type { Item as ItemType } from "@/types/Item";
 import Link from "next/link";
-import { API_ROUTES } from "@/utils/routes";
 import ItemInfo from "@/components/ItemInfo";
-import { Suspense } from "react";
 import CommentList from "@/components/CommentList";
 import { fetchItemById } from "@/utils/api";
 

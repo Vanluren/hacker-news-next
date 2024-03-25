@@ -9,6 +9,7 @@ type ItemProps = {
 
 const ListItem = ({ item, index }: ItemProps) => {
   const itemLink = item.url ? item.url : `/item/${item.id}`;
+
   return (
     <article
       id={item.id.toString()}
