@@ -35,7 +35,7 @@ describe("ItemInfo", () => {
   });
 
   test("renders the item time, in a pretty format", () => {
-    const date = new Date(MOCK_ITEM.time).toLocaleString(
+    const date = new Date(MOCK_ITEM.time * 1000).toLocaleString(
       undefined,
       DATE_OPTIONS,
     );

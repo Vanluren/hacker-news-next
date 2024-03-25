@@ -9,4 +9,5 @@ export const ROUTES = {
 export const API_ROUTES = {
   TOP_STTORIES: BASE_URL + "topstories.json",
   ITEM: (id: number | string) => BASE_URL + `item/${id}.json`,
+  USER: (id: string) => BASE_URL + `user/${id}.json`,
 } as const;
