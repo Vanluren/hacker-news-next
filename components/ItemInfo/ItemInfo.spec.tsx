@@ -2,7 +2,7 @@ import { describe, beforeEach, test, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
 import ItemInfo from ".";
 import { MOCK_ITEM } from "@/test/mocks";
-import { DATE_OPTIONS } from "../../utils/time";
+import { DATE_OPTIONS, timeAgo } from "@/utils/time";
 
 describe("ItemInfo", () => {
   beforeEach(() => {
@@ -35,10 +35,6 @@ describe("ItemInfo", () => {
   });
 
   test("renders the item time, in a pretty format", () => {
-    const date = new Date(MOCK_ITEM.time * 1000).toLocaleString(
-      undefined,
-      DATE_OPTIONS,
-    );
-    expect(screen.getByText(date)).toBeDefined();
+    expect(screen.getByText(timeAgo(MOCK_ITEM.time * 1000))).toBeDefined();
   });
 });
